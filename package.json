@@ -20,5 +20,5 @@
     "websocket",
     "WebRTC"
   ],
-  "desktop": "./src/ArcVueOptionsPlugin.js"
+  "desktop": "src/ArcVueOptionsPlugin.js"
 }
