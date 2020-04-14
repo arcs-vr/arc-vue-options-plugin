@@ -1,4 +1,4 @@
-# ARCS Remotes
+# ARC Vue Options Plugin
 
 This repository provides a Vue.js plugin that makes ARCS options globally accessible. 
 
