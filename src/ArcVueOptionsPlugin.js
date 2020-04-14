@@ -2,7 +2,7 @@
  * Default props for remote components
  * @type {object}
  */
-const RemoteOptions = {
+const ArcOptions = {
   app: {
     type: String,
     required: true
@@ -37,11 +37,11 @@ const RemoteOptions = {
 export const ArcVueOptionsPlugin = {
 
   setOptions (Vue, options) {
-    for (const [name, config] of Object.entries(RemoteOptions)) {
-      if (name in RemoteOptions) {
+    for (const [name, config] of Object.entries(ArcOptions)) {
+      if (name in ArcOptions) {
         if (typeof options[name] === 'undefined') {
           if (config.required === true) {
-            throw new Error(`The ArcRemotePlugin needs to be installed with the ${name} option.`)
+            throw new Error(`The ArcOptions needs to be installed with the ${name} option.`)
           }
 
           this.options[name] = this.getOrAwaitValue(Vue, name, config.default)
@@ -49,7 +49,7 @@ export const ArcVueOptionsPlugin = {
         }
 
         if (!(typeof options[name] === config.type.name.toLowerCase())) {
-          throw new Error(`The ArcRemotePlugin option ${name} must be of type ${config.type.name}.`)
+          throw new Error(`The ArcOptions option ${name} must be of type ${config.type.name}.`)
         }
 
         this.options[name] = this.getOrAwaitValue(Vue, name, options[name])
