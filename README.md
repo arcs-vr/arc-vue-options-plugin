@@ -88,11 +88,11 @@ using the `$arcOptions` Vue.js prototype property:
 
 ## Styling
 
-You can easily replace most of the styling by overriding the [`arcs-vr/arc-ci`](https://github.com/arcs-vr/arc-ci)
+You can easily replace most of the styling by overriding the [`arcs-vr/arc-cd`](https://github.com/arcs-vr/arc-cd)
 package, for example using the [`nerdchacha/module-replace-webpack-plugin`](https://github.com/nerdchacha/module-replace-webpack-plugin)
 in webpack.
 
-If you want to use the default styling, you must manually install the [`arcs-vr/arc-ci`](https://github.com/arcs-vr/arc-ci).
+If you want to use the default styling, you must manually install the [`arcs-vr/arc-cd`](https://github.com/arcs-vr/arc-cd).
 
 ## More
 
