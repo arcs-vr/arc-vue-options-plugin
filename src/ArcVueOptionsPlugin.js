@@ -23,6 +23,11 @@ const ArcOptions = {
     default: 'http'
   },
 
+  path: {
+    type: String,
+    default: ''
+  },
+
   routeRemote: {
     type: String,
     required: true,
@@ -38,39 +43,44 @@ export const ArcVueOptionsPlugin = {
 
   setOptions (Vue, options) {
     for (const [name, config] of Object.entries(ArcOptions)) {
-      if (name in ArcOptions) {
-        if (typeof options[name] === 'undefined') {
-          if (config.required === true) {
-            throw new Error(`The ArcOptions needs to be installed with the ${name} option.`)
-          }
-
-          this.options[name] = this.getOrAwaitValue(Vue, name, config.default)
-          continue
-        }
-
-        if (!(typeof options[name] === config.type.name.toLowerCase())) {
-          throw new Error(`The ArcOptions option ${name} must be of type ${config.type.name}.`)
-        }
-
-        this.options[name] = this.getOrAwaitValue(Vue, name, options[name])
+      if (!Object.prototype.hasOwnProperty.call(ArcOptions, name)) {
+        continue
       }
+
+      const passedType = typeof options[name]
+      const configuredType = config.type.name.toLowerCase()
+
+      if (passedType === 'undefined') {
+        if (config.required === true) {
+          throw new Error(`The ArcOptions needs to be installed with the ${name} option.`)
+        }
+
+        this.options[name] = this.getOrAwaitValue(Vue, name, config.default)
+        continue
+      }
+
+      if (passedType !== configuredType) {
+        throw new Error(`The ArcOptions option ${name} must be of type ${config.type.name}.`)
+      }
+
+      this.options[name] = this.getOrAwaitValue(Vue, name, options[name])
     }
   },
 
   getOrAwaitValue (Vue, name, value) {
-    if (typeof value === 'function') {
-      let result = value()
-
-      if (result instanceof Promise) {
-        result.then(value => {
-          Vue.prototype.$arcOptions[name] = value.default ? value.default : value
-        })
-      }
-
-      return result
+    if (typeof value !== 'function') {
+      return value
     }
 
-    return value
+    let result = value()
+
+    if (result instanceof Promise) {
+      result.then(value => {
+        Vue.prototype.$arcOptions[name] = value.default || value
+      })
+    }
+
+    return result
   },
 
   install (Vue, options) {
